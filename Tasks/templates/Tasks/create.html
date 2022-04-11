@@ -1,0 +1,26 @@
+{% extends 'Tasks/index.html' %}
+{% load static %}
+{% block content %}
+<form class="form-signin" method="POST">
+     {% csrf_token %}
+     <div class="text-center mb-4">
+       <h1 class="h3 mb-3 font-weight-normal">Add Task</h1>
+     </div>
+   {% for field in form %}
+     {% if field == form.title or field == form.complete %}
+     <label for="{{field.label}}">{{field.label}}</label>
+     <div class="form-label-group">
+       {{field}}
+     </div>
+     {% else %}
+     <div class="form-label-group">
+       {{field}}
+     </div>
+     {% endif %}
+     {% endfor %}
+     <p class='text-decoration-underline text-muted'>Tick 'complete' and select Completed from the options to End a Task</p>
+     
+     <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+</form>
+
+{% endblock content %}

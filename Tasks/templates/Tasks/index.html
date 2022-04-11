@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kelo Todolist</title>
+    <link href='{% static "css/bootstrap.min.css" %}' rel="stylesheet" />
+    <link href='{% static "css/font-awesome.min.css" %}' rel="stylesheet" />
+    <link href='{% static "css/style.css" %}' rel="stylesheet" />
+
+    <style>
+      .gspot input[type=text], .gspot input[type=password]{
+        width:100%;
+        border-radius: 10px;
+      }
+    </style>
+    
+  </head>
+  <body  class="snippet-body">
+    {% if messages %}
+    {% for message in messages%}
+    <div class="alert alert-success alert-dismissible fade show {{message.tag}}" role="alert">
+      {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% block content %}
+    <div class="row d-flex justify-content-center container">
+      
+      <div style='margin-top:80px' class="col-md-8">
+        <nav class="navbar navbar-light bg-light">
+          {% if user.is_authenticated %}
+          <h4 class="navbar-brand text-{{mycolor}} mx-3">Hi, {{request.user}}</h4>
+          {% else %}
+          <a class="navbar-brand mx-3"></a>
+          {% endif %}
+          <div class="form-inline">
+            {% if user.is_authenticated %}
+            <a href='{% url "logout" %}' class="btn btn-outline-success mx-3 my-sm-0" type="button">Logout</a>
+            {% else %}
+            <a href='{% url "login" %}' class="btn btn-outline-success mx-3 my-sm-0" type="button">Login</a>
+            {% endif %}
+          </div>
+        </nav>
+        <div class="card-hover-shadow-2x mb-3 card">
+          <div class="card-header-tab card-header">
+            <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
+               <h4></h4> 
+              <i class="fa fa-tasks"></i>&nbsp;Todo List
+            </div>
+          </div>
+          <div class="scroll-area-sm">
+            <perfect-scrollbar class="ps-show-limits">
+              <div style="position: static" class="ps ps--active-y">
+                <div class="ps-content">
+                  <ul class="list-group list-group-flush">
+
+                    {% for item in taskul %}
+                    <li class="list-group-item">
+                      <div class="todo-indicator bg-{{mycolor}}"></div>
+                      <div class="widget-content p-0">
+                        <div class="widget-content-wrapper">
+                          <div class="widget-content-left mr-2">
+                            <div class="custom-checkbox custom-control">
+                              <input
+                                class="custom-control-input"
+                                id="exampleCustomCheckbox12"
+                                type="checkbox"
+                              /><label
+                                class="custom-control-label"
+                                for="exampleCustomCheckbox12"
+                                >&nbsp;</label
+                              >
+                            </div>
+                          </div>
+                          <div class="widget-content-left">
+                            <div class="widget-heading text-lg-start">
+                              {% if item.rand_tags == 'Completed' and item.complete == True %}
+                              <h4 class='text-lg-start text-decoration-line-through'>{{item.title}}</h4>
+                              {% else %}
+                              <h4 class=''>{{item.title}}</>
+                              {% endif %}
+                              {% if item.rand_tags == 'New' %}
+                              <div class="badge bg-danger ml-3">
+                              {% elif item.rand_tags == 'Completed' and item.complete == True %}
+                              <div class="badge bg-success ml-3 ">
+                              {% else %}
+                              <div class="badge bg-warning ml-3">
+                              {%endif%}
+                                {{item.rand_tags}}
+                              </div>
+                            </div>
+                            <div class="widget-subheading"><i>{{item.created}}</i></div>
+                          </div>
+                          <div class="widget-content-right">
+                            <a href='{% url "Tasks:details" item.id %}'
+                              class="border-0 btn-transition btn btn-outline-success">
+                              <i class="fa fa-check">&#10175</i>
+                            </a>
+                            <a href='{% url "Tasks:update" item.id %}'
+                              class="border-0 btn-transition btn btn-outline-success">
+                              <i class="fa fa-check">&#9997</i>
+                            </a>
+                            <a href='{% url "Tasks:delete" item.id %}'
+                              class="border-0 btn-transition btn btn-outline-danger"
+                            >
+                              <i class="fa fa-trash">&#10060</i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    {%endfor %}
+                    
+                  </ul>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </div>
+          <div class="d-block text-right card-footer">
+            <a href='{% url "Tasks:deleteall" %}' class="mr-2 btn btn-danger ">Delete All</a>
+            <a type='button' href='{% url "Tasks:create" %}' class="btn btn-primary">Add Task</a>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    {% endblock content %}
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery-1.11.3.min.js' %}"
+    ></script>
+    <script type="text/javascript" src='{% static "js/bootstrap.bundle.min.js" %}'></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'Tasks/index.html' %}
+{% load static %}
+{% block content %}
+    <form method='POST' class="form-signin">
+        {% csrf_token %}
+  <div class="text-center mb-4">
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+  </div>
+{% for field in form %}
+  <div class="form-label-group">
+    {{field}}
+    <label for="{{field.label}}">{{field.label}}</label>
+  </div>
+{% endfor %}
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign-Up</button>
+  <span uk-icon="icon: check">Or</span>
+  <a href='{% url "login" %}' type="button" class="btn btn-link">Login</a>
+</form>
+{% endblock content %}

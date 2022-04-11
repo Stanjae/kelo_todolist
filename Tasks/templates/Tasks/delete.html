@@ -1,0 +1,15 @@
+{% extends 'Tasks/index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    <form method='POST'>
+        {% csrf_token %}
+        <h3>You wanna delete {{deleteitem}}</h3>
+        <a class='btn btn-secondary' href='{% url "Tasks:todo" %}'>Go back</a>
+        <button class='btn-success btn' type='submit'>Delete</button>
+        
+    </form>
+  </div>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'Tasks/index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    <h3 class='text-light'>You wanna delete all items ?</h3>
+    {% for item in items %}
+    <div class='p-1 bg-white'><h4>{{item.title}}</h4></div>
+    {% endfor %}
+    <form method='POST'>
+        {% csrf_token %}
+        
+        <a class='btn btn-secondary' href='{% url "Tasks:todo" %}'>Go back</a>
+        <button class='btn-danger btn' type='submit'>Delete all</button>
+        
+    </form>
+  </div>
+
+{% endblock content %}
